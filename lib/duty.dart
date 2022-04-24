@@ -20,19 +20,28 @@ class _DutyState extends State<Duty> {
     final _duty = TextEditingController();
     final _tkF2 = TextEditingController();
     final _usdF1 = TextEditingController();
-    double result;
-    double resultCal;
-    double? d1;
+    final _tti = TextEditingController();
+
     double? f1;
     double f2;
     double? f3;
-    double mesResult;
-    double? invoice_calculation;
+    double? invoiceCalculation;
+    double? assesableValues;
+    double tti;
+    double ttiWithAssesable;
+    double fisCondition;
+    double secCondition;
+    double thrCondition;
+
+    num ttii;
     num invoAddition;
     num invoPercent;
     num f11;
-    num d11;
     num f33;
+
+    num fiCondition;
+    num seCondition;
+    num thCondition;
 
     return Scaffold(
       appBar: AppBar(),
@@ -50,25 +59,19 @@ class _DutyState extends State<Duty> {
                       decoration: const InputDecoration(
                           label: Text('¥EN'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),
-                  ),
+                    ),),
                   const SizedBox(
                     width: 10,
                   ),
                   Flexible(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: _usd,
                         decoration: const InputDecoration(
                             label: Text('\$USD'), border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      ),),),],),),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -79,8 +82,7 @@ class _DutyState extends State<Duty> {
                       decoration: const InputDecoration(
                           label: Text('Mes'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),
-                  ),
+                    ),),
                   const SizedBox(
                     width: 10,
                   ),
@@ -93,12 +95,7 @@ class _DutyState extends State<Duty> {
                             label: Text('Invoice'),
                             border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      ),),),],),),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -110,38 +107,33 @@ class _DutyState extends State<Duty> {
                           label: Text('Yellow Book Value'),
                           border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),
-                  ),
+                    ),),
                   const SizedBox(
                     width: 10,
                   ),
                   Flexible(
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: TextField(
                         controller: _less,
                         decoration: const InputDecoration(
                             label: Text('Less %'),
                             border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      ),),),],),),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Flexible(
-                    child: TextField(
-                      controller: _usdF1,
-                      decoration: const InputDecoration(
-                          label: Text('\$USD'), border: OutlineInputBorder()),
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _tti,
+                        decoration: const InputDecoration(
+                            label: Text('TTI'), border: OutlineInputBorder()),
+                        keyboardType: TextInputType.number,
+                      ),),),
                   const SizedBox(
                     width: 10,
                   ),
@@ -153,12 +145,7 @@ class _DutyState extends State<Duty> {
                         decoration: const InputDecoration(
                             label: Text('Taka'), border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                      ),),),],),),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -174,19 +161,13 @@ class _DutyState extends State<Duty> {
                   const SizedBox(
                     width: 10,
                   ),
-                  const Flexible(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            label: Text('TTI'), border: OutlineInputBorder()),
-                        keyboardType: TextInputType.number,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                  Flexible(
+                    child: TextField(
+                      controller: _usdF1,
+                      decoration: const InputDecoration(
+                          label: Text('\$USD'), border: OutlineInputBorder()),
+                      keyboardType: TextInputType.number,
+                    ),),],),),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -194,44 +175,44 @@ class _DutyState extends State<Duty> {
                 decoration: const InputDecoration(
                     label: Text('Duty'), border: OutlineInputBorder()),
                 keyboardType: TextInputType.number,
-              ),
-            ),
+              ),),
             ElevatedButton(
                 onPressed: () {
                   invoPercent = double.parse(_invoice.text) * 0.0201;
                   invoAddition = (double.parse(_invoice.text) + invoPercent) *
                       double.parse(_usd.text);
-                  invoice_calculation=invoAddition as double?;
+                  //con double to num
+                  invoiceCalculation = invoAddition as double?;
 
-
-                  f11 = ((((double.parse(_yellow.text) - (double.parse(_yellow.text) * double.parse(_less.text) * 0.01)) * double.parse(_yen.text)) / double.parse(_usd.text)) + (double.parse(_mes.text) * 35))+invoPercent;
-                  f1 = f11 as double?;
+                  f11 = ((((double.parse(_yellow.text) -
+                                      (double.parse(_yellow.text) *
+                                          double.parse(_less.text) *
+                                          0.01)) *
+                                  double.parse(_yen.text)) /
+                              double.parse(_usd.text)) +
+                          (double.parse(_mes.text) * 35)) +
+                      invoPercent;
+                  f1 = double.parse(f11.toStringAsFixed(3));
                   _usdF1.text = f1.toString();
-                  f2 = (f1! * double.parse(_usd.text));
+                  f2 = double.parse(
+                      (f1! * double.parse(_usd.text)).toStringAsFixed(3));
                   _tkF2.text = f2.toString();
-                  // d11 = ((double.parse(_invoice.text) * 0.0201) +
-                  //         double.parse(_invoice.text)) *
-                  //     double.parse(_usd.text);
-                  // d1 = d11 as double?;
-                  f33 = f2 / invoice_calculation!;
+                  f33 = f2 / invoiceCalculation!;
                   f3 = double.parse(f33.toStringAsFixed(4));
-                  // f3=f33.toStringAsFixed(3) as double;
-                  // result=double.parse(_yellow.text)-(double.parse(_yellow.text)*double.parse(_less.text)*0.01);
-                  //mesResult=double.parse(_mes.text)*35;
+                  tti = double.parse(_tti.text) / 100;
+                  ttii = tti;
+                  assesableValues =
+                      double.parse((invoAddition * f3!).toStringAsFixed(3));
+                  ttiWithAssesable = (assesableValues! * ttii);
+                  _adj.text = f3!.toString();
+                  //_duty.text = fisCondition.toString();
 
-                  // resultCal=result;
-                  _adj.text = f3.toString();
-                  // showDialog(
-                  //   context: context,
-                  //   builder:(context)=>const AlertDialog(
-                  //     title: Text('Duty Value'),
-                  //   )
-                  // );
-                },
-                child: const Text('Calculation'))
-          ],
-        ),
-      ),
-    );
-  }
-}
+                    if (ttiWithAssesable <= 500000) {
+                      fisCondition = 500000 * 0.01 * .25;
+
+                    }
+                  _duty.text = fisCondition.toString();
+
+                  // fiCondition= fisCondition;
+                  },
+                child: const Text('Calculation'))],),),);}}

@@ -29,9 +29,18 @@ class _DutyState extends State<Duty> {
     double? assesableValues;
     double tti;
     double ttiWithAssesable;
-    double fisCondition;
-    double secCondition;
-    double thrCondition;
+    double fisCondition=0;
+    double secCondition=0;
+    double thrCondition=0;
+    double fourCondition=0;
+
+double totalDuty=0;
+
+    double? firstCheckValue;
+    double? secondCheckValue;
+    double? thirdCheckValue;
+    double? fourthCheckValue;
+
 
     num ttii;
     num invoAddition;
@@ -59,7 +68,8 @@ class _DutyState extends State<Duty> {
                       decoration: const InputDecoration(
                           label: Text('¥EN'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),),
+                    ),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -71,7 +81,12 @@ class _DutyState extends State<Duty> {
                         decoration: const InputDecoration(
                             label: Text('\$USD'), border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),),),],),),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -82,7 +97,8 @@ class _DutyState extends State<Duty> {
                       decoration: const InputDecoration(
                           label: Text('Mes'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),),
+                    ),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -95,7 +111,12 @@ class _DutyState extends State<Duty> {
                             label: Text('Invoice'),
                             border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),),),],),),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -107,7 +128,8 @@ class _DutyState extends State<Duty> {
                           label: Text('Yellow Book Value'),
                           border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),),
+                    ),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -120,7 +142,12 @@ class _DutyState extends State<Duty> {
                             label: Text('Less %'),
                             border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),),),],),),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -133,7 +160,9 @@ class _DutyState extends State<Duty> {
                         decoration: const InputDecoration(
                             label: Text('TTI'), border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),),),
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -145,7 +174,12 @@ class _DutyState extends State<Duty> {
                         decoration: const InputDecoration(
                             label: Text('Taka'), border: OutlineInputBorder()),
                         keyboardType: TextInputType.number,
-                      ),),),],),),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -167,7 +201,11 @@ class _DutyState extends State<Duty> {
                       decoration: const InputDecoration(
                           label: Text('\$USD'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
-                    ),),],),),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -175,7 +213,8 @@ class _DutyState extends State<Duty> {
                 decoration: const InputDecoration(
                     label: Text('Duty'), border: OutlineInputBorder()),
                 keyboardType: TextInputType.number,
-              ),),
+              ),
+            ),
             ElevatedButton(
                 onPressed: () {
                   invoPercent = double.parse(_invoice.text) * 0.0201;
@@ -207,12 +246,32 @@ class _DutyState extends State<Duty> {
                   _adj.text = f3!.toString();
                   //_duty.text = fisCondition.toString();
 
-                    if (ttiWithAssesable <= 500000) {
-                      fisCondition = 500000 * 0.01 * .25;
+                  //1st condition check
+                  if (ttiWithAssesable <= 500000) {
+                    fisCondition = 500000 * 0.01 * .25;
+                    firstCheckValue= ttiWithAssesable - 500000;
 
-                    }
+                  }
+                  //2nd condition check
+                  if (firstCheckValue! <= 500000) {
+                    secCondition = 500000 * 0.0075 * .25;
+                    secondCheckValue = (firstCheckValue! - 500000);
+                  }
+                  //3rd condition check
+                  if (secondCheckValue! <= 1000000) {
+                    thrCondition = 500000 * 0.005 * .25;
+                  }
+                  //4th condition check
+                  else {
+                    fourCondition = 500000 * 0.0025 * .25;
+                  }
                   _duty.text = fisCondition.toString();
-
                   // fiCondition= fisCondition;
-                  },
-                child: const Text('Calculation'))],),),);}}
+                },
+                child: const Text('Calculation'))
+          ],
+        ),
+      ),
+    );
+  }
+}

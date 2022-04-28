@@ -23,37 +23,34 @@ class _DutyState extends State<Duty> {
     final _tti = TextEditingController();
 
     double? f1;
-    double f2;
+    double? f2;
     double? f3;
     double? invoiceCalculation;
-    double? assesableValues;
-    double tti;
-    double ttiWithAssesable;
+    double assesableValues=0;
+    double? tti;
+    double ttiWithAssesable=0;
     double fisCondition=0;
+    double fisConditionOne=0;
     double secCondition=0;
+    double secConditionOne=0;
     double thrCondition=0;
-    double fourCondition=0;
+    double thrConditionOne=0;
+    double lastValue=0;
+double invoPercent;
+    double totalDuty;
+    num totalDutyValue;
 
-double totalDuty=0;
+    double firstCheckValue=0;
+    double secondCheckValue=0;
+    double thirdCheckValue=0;
 
-    double? firstCheckValue;
-    double? secondCheckValue;
-    double? thirdCheckValue;
-    double? fourthCheckValue;
-
-
-    num ttii;
-    num invoAddition;
-    num invoPercent;
-    num f11;
-    num f33;
-
-    num fiCondition;
-    num seCondition;
-    num thCondition;
+    num? ttii;
+    num? invoAddition;
+    num? f11;
+    num? f33;
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('Duty Calculation'),),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -74,14 +71,11 @@ double totalDuty=0;
                     width: 10,
                   ),
                   Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: _usd,
-                        decoration: const InputDecoration(
-                            label: Text('\$USD'), border: OutlineInputBorder()),
-                        keyboardType: TextInputType.number,
-                      ),
+                    child: TextField(
+                      controller: _usd,
+                      decoration: const InputDecoration(
+                          label: Text('\$USD'), border: OutlineInputBorder()),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ],
@@ -103,15 +97,12 @@ double totalDuty=0;
                     width: 10,
                   ),
                   Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: _invoice,
-                        decoration: const InputDecoration(
-                            label: Text('Invoice'),
-                            border: OutlineInputBorder()),
-                        keyboardType: TextInputType.number,
-                      ),
+                    child: TextField(
+                      controller: _invoice,
+                      decoration: const InputDecoration(
+                          label: Text('Invoice'),
+                          border: OutlineInputBorder()),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ],
@@ -134,15 +125,12 @@ double totalDuty=0;
                     width: 10,
                   ),
                   Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: _less,
-                        decoration: const InputDecoration(
-                            label: Text('Less %'),
-                            border: OutlineInputBorder()),
-                        keyboardType: TextInputType.number,
-                      ),
+                    child: TextField(
+                      controller: _less,
+                      decoration: const InputDecoration(
+                          label: Text('Less %'),
+                          border: OutlineInputBorder()),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ],
@@ -153,28 +141,22 @@ double totalDuty=0;
               child: Row(
                 children: [
                   Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: _tti,
-                        decoration: const InputDecoration(
-                            label: Text('TTI'), border: OutlineInputBorder()),
-                        keyboardType: TextInputType.number,
-                      ),
+                    child: TextField(
+                      controller: _tti,
+                      decoration: const InputDecoration(
+                          label: Text('TTI'), border: OutlineInputBorder()),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   Flexible(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: _tkF2,
-                        decoration: const InputDecoration(
-                            label: Text('Taka'), border: OutlineInputBorder()),
-                        keyboardType: TextInputType.number,
-                      ),
+                    child: TextField(
+                      controller: _tkF2,
+                      decoration: const InputDecoration(
+                          label: Text('Taka'), border: OutlineInputBorder()),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ],
@@ -231,44 +213,92 @@ double totalDuty=0;
                               double.parse(_usd.text)) +
                           (double.parse(_mes.text) * 35)) +
                       invoPercent;
-                  f1 = double.parse(f11.toStringAsFixed(3));
+                  f1 = double.parse(f11!.toStringAsFixed(3));
                   _usdF1.text = f1.toString();
                   f2 = double.parse(
-                      (f1! * double.parse(_usd.text)).toStringAsFixed(3));
+                      (f1!* double.parse(_usd.text)).toStringAsFixed(3));
                   _tkF2.text = f2.toString();
-                  f33 = f2 / invoiceCalculation!;
-                  f3 = double.parse(f33.toStringAsFixed(4));
+                  f33 = (f2! / invoiceCalculation!);
+                  f3 = double.parse(f33!.toStringAsFixed(4));
                   tti = double.parse(_tti.text) / 100;
-                  ttii = tti;
+                  ttii = tti as num;
                   assesableValues =
-                      double.parse((invoAddition * f3!).toStringAsFixed(3));
-                  ttiWithAssesable = (assesableValues! * ttii);
-                  _adj.text = f3!.toString();
-                  //_duty.text = fisCondition.toString();
+                      double.parse((invoAddition! * f3!).toStringAsFixed(3));
+                  ttiWithAssesable = double.parse( (assesableValues* ttii!).toStringAsFixed(3));
+                  _adj.text = f3.toString();
+
+                 // _duty.text = assesableValues.toString();
+
+                  if (assesableValues>= 500000) {
+                    fisCondition = 500000 * 0.01 * 0.25;
+                    firstCheckValue = (assesableValues- 500000);
+                  } else{
+                    fisConditionOne = assesableValues* 0.01 * 0.25;
+                  }
+                  //fiCondition=fisConditionOne as num;
+                   if  (firstCheckValue >= 500000) {
+                    secCondition = 500000 * 0.0075 * 0.25;
+                    secondCheckValue = (firstCheckValue - 500000);
+                  } else  {
+                    secConditionOne = firstCheckValue * 0.0075 * 0.25;
+                  }
+                   if (secondCheckValue>= 1000000) {
+                    thrCondition = 1000000 * 0.005 * 0.25;
+                    thirdCheckValue = (secondCheckValue- 1000000);
+                  } else {
+                    thrConditionOne = secondCheckValue* 0.005 * 0.25;
+                  }
+                  lastValue = thirdCheckValue* 0.0025 * 0.25;
+
+
+
+                  totalDuty = fisCondition+
+                      fisConditionOne+
+                      secCondition+
+                      secConditionOne+
+                      thrCondition+
+                      thrConditionOne+
+                      lastValue+
+                      30;
+                  totalDutyValue =double.parse( totalDuty .toStringAsFixed(3)) + ttiWithAssesable;
+
+                  _duty.text = totalDutyValue.toString();
+
 
                   //1st condition check
-                  if (ttiWithAssesable <= 500000) {
-                    fisCondition = 500000 * 0.01 * .25;
-                    firstCheckValue= ttiWithAssesable - 500000;
+                  // if (ttiWithAssesable >= 500000) {
+                  //   fisCondition = 500000 * 0.01 * 0.25;
+                  //   firstCheckValue = ttiWithAssesable - 500000;
+                  // }
+                  //
+                  // fiCondition = fisCondition;
+                  // //_duty.text = ttiWithAssesable.toString();
+                  //
+                  // //2nd condition check
+                  // if (firstCheckValue! >= 500000) {
+                  //   secCondition = 500000 * 0.0075 * 0.25;
+                  //   secondCheckValue = (firstCheckValue! - 500000);
+                  //
+                  // }
+                  // seCondition=secCondition;
+                  // _duty.text = assesableValues.toString();
+                  // //3rd condition check
+                  // if (secondCheckValue! >= 1000000) {
+                  //   thrCondition = 500000 * 0.005 * 0.25;
+                  //   thirdCheckValue=(secondCheckValue!-1000000);
+                  //
+                  // }
+                  // //4th condition check
+                  // else {
+                  //   fourCondition = thirdCheckValue! * 0.0025 * 0.25;
+                  // }
+                  //_duty.text = fourCondition.toString();
+                  // totalDuty = (fiCondition!+seCondition!+thCondition!+fourCondition! + 30);
+                   //totalDutyValue = totalDuty;
 
-                  }
-                  //2nd condition check
-                  if (firstCheckValue! <= 500000) {
-                    secCondition = 500000 * 0.0075 * .25;
-                    secondCheckValue = (firstCheckValue! - 500000);
-                  }
-                  //3rd condition check
-                  if (secondCheckValue! <= 1000000) {
-                    thrCondition = 500000 * 0.005 * .25;
-                  }
-                  //4th condition check
-                  else {
-                    fourCondition = 500000 * 0.0025 * .25;
-                  }
-                  _duty.text = fisCondition.toString();
                   // fiCondition= fisCondition;
                 },
-                child: const Text('Calculation'))
+                child: const Text('       Calculation      '))
           ],
         ),
       ),

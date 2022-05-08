@@ -26,23 +26,23 @@ class _DutyState extends State<Duty> {
     double? f2;
     double? f3;
     double? invoiceCalculation;
-    double assesableValues=0;
+    double assesableValues = 0;
     double? tti;
-    double ttiWithAssesable=0;
-    double fisCondition=0;
-    double fisConditionOne=0;
-    double secCondition=0;
-    double secConditionOne=0;
-    double thrCondition=0;
-    double thrConditionOne=0;
-    double lastValue=0;
-double invoPercent;
+    double ttiWithAssesable = 0;
+    double fisCondition = 0;
+    double fisConditionOne = 0;
+    double secCondition = 0;
+    double secConditionOne = 0;
+    double thrCondition = 0;
+    double thrConditionOne = 0;
+    double lastValue = 0;
+    double invoPercent;
     double totalDuty;
     num totalDutyValue;
 
-    double firstCheckValue=0;
-    double secondCheckValue=0;
-    double thirdCheckValue=0;
+    double firstCheckValue = 0;
+    double secondCheckValue = 0;
+    double thirdCheckValue = 0;
 
     num? ttii;
     num? invoAddition;
@@ -50,7 +50,9 @@ double invoPercent;
     num? f33;
 
     return Scaffold(
-      appBar: AppBar(title: Text('Duty Calculation'),),
+      appBar: AppBar(
+        title: Text('Duty Calculation'),
+      ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(
@@ -100,8 +102,7 @@ double invoPercent;
                     child: TextField(
                       controller: _invoice,
                       decoration: const InputDecoration(
-                          label: Text('Invoice'),
-                          border: OutlineInputBorder()),
+                          label: Text('Invoice'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -128,8 +129,7 @@ double invoPercent;
                     child: TextField(
                       controller: _less,
                       decoration: const InputDecoration(
-                          label: Text('Less %'),
-                          border: OutlineInputBorder()),
+                          label: Text('Less %'), border: OutlineInputBorder()),
                       keyboardType: TextInputType.number,
                     ),
                   ),
@@ -216,87 +216,61 @@ double invoPercent;
                   f1 = double.parse(f11!.toStringAsFixed(3));
                   _usdF1.text = f1.toString();
                   f2 = double.parse(
-                      (f1!* double.parse(_usd.text)).toStringAsFixed(3));
+                      (f1! * double.parse(_usd.text)).toStringAsFixed(3));
                   _tkF2.text = f2.toString();
                   f33 = (f2! / invoiceCalculation!);
-                  f3 = double.parse(f33!.toStringAsFixed(4));
+
+                  f3 = double.parse(f33!.toStringAsFixed(5));
+                  double getNumber(double f3, {int precision = 2}) =>
+                      double.parse('$f3'
+                          .substring(0, '$f3'.indexOf('.') + precision + 1));
+
+                  var output = getNumber(f3!, precision: 4) + 0.0001; // 113.9
+
                   tti = double.parse(_tti.text) / 100;
                   ttii = tti as num;
                   assesableValues =
-                      double.parse((invoAddition! * f3!).toStringAsFixed(3));
-                  ttiWithAssesable = double.parse( (assesableValues* ttii!).toStringAsFixed(3));
-                  _adj.text = f3.toString();
+                      double.parse((invoAddition! * output).toStringAsFixed(4));
+                  ttiWithAssesable = double.parse(
+                      (assesableValues * ttii!).toStringAsFixed(4));
+                  _adj.text = output.toString();
 
-                 // _duty.text = assesableValues.toString();
+                  // _duty.text = assesableValues.toString();
 
-                  if (assesableValues>= 500000) {
+                  if (assesableValues >= 500000) {
                     fisCondition = 500000 * 0.01 * 0.25;
-                    firstCheckValue = (assesableValues- 500000);
-                  } else{
-                    fisConditionOne = assesableValues* 0.01 * 0.25;
+                    firstCheckValue = (assesableValues - 500000);
+                  } else {
+                    fisConditionOne = assesableValues * 0.01 * 0.25;
                   }
                   //fiCondition=fisConditionOne as num;
-                   if  (firstCheckValue >= 500000) {
+                  if (firstCheckValue >= 500000) {
                     secCondition = 500000 * 0.0075 * 0.25;
                     secondCheckValue = (firstCheckValue - 500000);
-                  } else  {
+                  } else {
                     secConditionOne = firstCheckValue * 0.0075 * 0.25;
                   }
-                   if (secondCheckValue>= 1000000) {
+                  if (secondCheckValue >= 1000000) {
                     thrCondition = 1000000 * 0.005 * 0.25;
-                    thirdCheckValue = (secondCheckValue- 1000000);
+                    thirdCheckValue = (secondCheckValue - 1000000);
                   } else {
-                    thrConditionOne = secondCheckValue* 0.005 * 0.25;
+                    thrConditionOne = secondCheckValue * 0.005 * 0.25;
                   }
-                  lastValue = thirdCheckValue* 0.0025 * 0.25;
+                  lastValue = thirdCheckValue * 0.0025 * 0.25;
 
-
-
-                  totalDuty = fisCondition+
-                      fisConditionOne+
-                      secCondition+
-                      secConditionOne+
-                      thrCondition+
-                      thrConditionOne+
-                      lastValue+
+                  totalDuty = fisCondition +
+                      fisConditionOne +
+                      secCondition +
+                      secConditionOne +
+                      thrCondition +
+                      thrConditionOne +
+                      lastValue +
                       30;
-                  totalDutyValue =double.parse( totalDuty .toStringAsFixed(3)) + ttiWithAssesable;
-
+                  double total = double.parse(totalDuty.toStringAsFixed(4)) +
+                      ttiWithAssesable;
+                 totalDutyValue = total;
                   _duty.text = totalDutyValue.toString();
 
-
-                  //1st condition check
-                  // if (ttiWithAssesable >= 500000) {
-                  //   fisCondition = 500000 * 0.01 * 0.25;
-                  //   firstCheckValue = ttiWithAssesable - 500000;
-                  // }
-                  //
-                  // fiCondition = fisCondition;
-                  // //_duty.text = ttiWithAssesable.toString();
-                  //
-                  // //2nd condition check
-                  // if (firstCheckValue! >= 500000) {
-                  //   secCondition = 500000 * 0.0075 * 0.25;
-                  //   secondCheckValue = (firstCheckValue! - 500000);
-                  //
-                  // }
-                  // seCondition=secCondition;
-                  // _duty.text = assesableValues.toString();
-                  // //3rd condition check
-                  // if (secondCheckValue! >= 1000000) {
-                  //   thrCondition = 500000 * 0.005 * 0.25;
-                  //   thirdCheckValue=(secondCheckValue!-1000000);
-                  //
-                  // }
-                  // //4th condition check
-                  // else {
-                  //   fourCondition = thirdCheckValue! * 0.0025 * 0.25;
-                  // }
-                  //_duty.text = fourCondition.toString();
-                  // totalDuty = (fiCondition!+seCondition!+thCondition!+fourCondition! + 30);
-                   //totalDutyValue = totalDuty;
-
-                  // fiCondition= fisCondition;
                 },
                 child: const Text('       Calculation      '))
           ],

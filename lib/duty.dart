@@ -197,82 +197,124 @@ class _DutyState extends State<Duty> {
                 keyboardType: TextInputType.number,
               ),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  invoPercent = double.parse(_invoice.text) * 0.0201;
-                  invoAddition = (double.parse(_invoice.text) + invoPercent) *
-                      double.parse(_usd.text);
-                  //con double to num
-                  invoiceCalculation = invoAddition as double?;
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
 
-                  f11 = ((((double.parse(_yellow.text) -
-                                      (double.parse(_yellow.text) *
-                                          double.parse(_less.text) *
-                                          0.01)) *
-                                  double.parse(_yen.text)) /
-                              double.parse(_usd.text)) +
+                      invoPercent = double.parse(_invoice.text) * 0.0201;
+                      invoAddition = (double.parse(_invoice.text) + invoPercent) *
+                          double.parse(_usd.text);
+                      //con double to num
+                      invoiceCalculation = invoAddition as double?;
+
+                      f11 = ((((double.parse(_yellow.text) -
+                          (double.parse(_yellow.text) *
+                              double.parse(_less.text) *
+                              0.01)) *
+                          double.parse(_yen.text)) /
+                          double.parse(_usd.text)) +
                           (double.parse(_mes.text) * 35)) +
-                      invoPercent;
-                  f1 = double.parse(f11!.toStringAsFixed(3));
-                  _usdF1.text = f1.toString();
-                  f2 = double.parse(
-                      (f1! * double.parse(_usd.text)).toStringAsFixed(3));
-                  _tkF2.text = f2.toString();
-                  f33 = (f2! / invoiceCalculation!);
+                          invoPercent;
+                      f1 = double.parse(f11!.toStringAsFixed(3));
+                      _usdF1.text = f1.toString();
+                      f2 = double.parse(
+                          (f1! * double.parse(_usd.text)).toStringAsFixed(3));
+                      _tkF2.text = f2.toString();
+                      f33 = (f2! / invoiceCalculation!);
 
-                  f3 = double.parse(f33!.toStringAsFixed(5));
-                  double getNumber(double f3, {int precision = 2}) =>
-                      double.parse('$f3'
-                          .substring(0, '$f3'.indexOf('.') + precision + 1));
+                      f3 = double.parse(f33!.toStringAsFixed(5));
+                      double getNumber(double f3, {int precision = 2}) =>
+                          double.parse('$f3'
+                              .substring(0, '$f3'.indexOf('.') + precision + 1));
 
-                  var output = getNumber(f3!, precision: 4) + 0.0001; // 113.9
+                      var output = getNumber(f3!, precision: 4) + 0.0001; // 113.9
 
-                  tti = double.parse(_tti.text) / 100;
-                  ttii = tti as num;
-                  assesableValues =
-                      double.parse((invoAddition! * output).toStringAsFixed(4));
-                  ttiWithAssesable = double.parse(
-                      (assesableValues * ttii!).toStringAsFixed(4));
-                  _adj.text = output.toString();
+                      tti = double.parse(_tti.text) / 100;
+                      ttii = tti as num;
+                      assesableValues =
+                          double.parse((invoAddition! * output).toStringAsFixed(4));
+                      ttiWithAssesable = double.parse(
+                          (assesableValues * ttii!).toStringAsFixed(4));
+                      _adj.text = output.toString();
 
-                  // _duty.text = assesableValues.toString();
+                      // _duty.text = assesableValues.toString();
 
-                  if (assesableValues >= 500000) {
-                    fisCondition = 500000 * 0.01 * 0.25;
-                    firstCheckValue = (assesableValues - 500000);
-                  } else {
-                    fisConditionOne = assesableValues * 0.01 * 0.25;
-                  }
-                  //fiCondition=fisConditionOne as num;
-                  if (firstCheckValue >= 500000) {
-                    secCondition = 500000 * 0.0075 * 0.25;
-                    secondCheckValue = (firstCheckValue - 500000);
-                  } else {
-                    secConditionOne = firstCheckValue * 0.0075 * 0.25;
-                  }
-                  if (secondCheckValue >= 1000000) {
-                    thrCondition = 1000000 * 0.005 * 0.25;
-                    thirdCheckValue = (secondCheckValue - 1000000);
-                  } else {
-                    thrConditionOne = secondCheckValue * 0.005 * 0.25;
-                  }
-                  lastValue = thirdCheckValue * 0.0025 * 0.25;
+                      if (assesableValues >= 500000) {
+                        fisCondition = 500000 * 0.01 * 0.25;
+                        firstCheckValue = (assesableValues - 500000);
+                      } else {
+                        fisConditionOne = assesableValues * 0.01 * 0.25;
+                      }
+                      //fiCondition=fisConditionOne as num;
+                      if (firstCheckValue >= 500000) {
+                        secCondition = 500000 * 0.0075 * 0.25;
+                        secondCheckValue = (firstCheckValue - 500000);
+                      } else {
+                        secConditionOne = firstCheckValue * 0.0075 * 0.25;
+                      }
+                      if (secondCheckValue >= 1000000) {
+                        thrCondition = 1000000 * 0.005 * 0.25;
+                        thirdCheckValue = (secondCheckValue - 1000000);
+                      } else {
+                        thrConditionOne = secondCheckValue * 0.005 * 0.25;
+                      }
+                      lastValue = thirdCheckValue * 0.0025 * 0.25;
 
-                  totalDuty = fisCondition +
-                      fisConditionOne +
-                      secCondition +
-                      secConditionOne +
-                      thrCondition +
-                      thrConditionOne +
-                      lastValue +
-                      30;
-                  double total = double.parse(totalDuty.toStringAsFixed(4)) +
-                      ttiWithAssesable;
-                 totalDutyValue = total;
-                  _duty.text = totalDutyValue.toString();
+                      totalDuty = fisCondition +
+                          fisConditionOne +
+                          secCondition +
+                          secConditionOne +
+                          thrCondition +
+                          thrConditionOne +
+                          lastValue +
+                          30;
+                      double total = double.parse(totalDuty.toStringAsFixed(4)) +
+                          ttiWithAssesable;
 
-                },
-                child: const Text('       Calculation      '))
+                      totalDutyValue = total;
+                      _duty.text = totalDutyValue.toString();
+
+
+
+
+                    },
+                    child: const Text('       Calculation      ')),
+                SizedBox(width: 50,),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.pink),
+                    onPressed: () {
+
+                      invoPercent = 0;
+                      invoAddition = 0;
+                      //con double to num
+                      invoiceCalculation = 0;
+
+                      f11 = 0;
+                      f1 = 0;
+                      _usdF1.text = '';
+                      f2 = 0;
+                      _tkF2.text = '';
+                      f33 = 0;
+
+                      f3 = 0;
+                    // 113.9
+
+                      tti = 0;
+                      ttii = 0;
+                      assesableValues =0;
+                      _adj.text = '';
+                      _duty.text = '';
+
+
+
+
+                    },
+                    child: const Text('       Clear      '))
+              ],
+            ),
+
           ],
         ),
       ),

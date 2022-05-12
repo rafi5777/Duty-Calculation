@@ -27,22 +27,25 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       backgroundColor: Color(0xfffff7fb),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Align(
               alignment: Alignment.center,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 220),
+                padding: const EdgeInsets.symmetric(vertical: 150),
                 child: Container(
                   child: Align(
                     alignment: Alignment.center,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Image.asset(
                           'assets/calculator.png',
-                          height: 200,
-                          width: 200,
+                          height: 150,
+                          width: 150,
                         ),
+                        SizedBox(height: 10,),
                         Text('Duty Calculation',style: TextStyle(fontWeight: FontWeight.bold),)
                       ],
                     ),
